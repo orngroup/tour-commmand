@@ -6,10 +6,12 @@
 <title>Wonders of Europe 2026 — ORN Operations & Sales Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+html{height:100%;margin:0;padding:0}
+
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--blue:#1a3a5c;--orange:#1a3a5c;--green:#15803d;--red:#b91c1c;--amber:#d97706;--bg:#fff;--bg2:#f8f9fb;--bg3:#eef0f4;--bd:#e2e6ea;--t:#1a2332;--t2:#1e293b;--t3:#4b5563;--r:8px}
-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);min-height:100vh}
-.topbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.08);gap:0;overflow:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;height:60px;flex-shrink:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.08);gap:0}
 .topbar-left{display:flex;align-items:center;gap:12px;flex-shrink:1;min-width:0;overflow:hidden}
 .topbar img{height:40px;object-fit:contain}
 .topbar-divider{width:1px;height:32px;background:var(--bd)}
@@ -20,11 +22,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);ba
 .owner-tag span{color:var(--orange);margin-right:4px}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse 1.5s infinite;display:inline-block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.nav{background:#fff;border-bottom:2px solid var(--bd);display:flex;overflow-x:auto;padding:0 0 0 20px;gap:0;scrollbar-width:none;width:100%;box-sizing:border-box;position:sticky;top:60px;z-index:90}
+.nav{display:none}
 .nav-tab{padding:14px 17px;font-size:13.5px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:.15s}
 .nav-tab:hover{color:var(--t2)}
-.nav-tab.on{color:var(--orange);border-bottom-color:var(--orange)}
-.page{display:none;padding:22px 22px;width:100%;box-sizing:border-box}
+.nav-tab.on{display:none}
+.page{display:none;padding:22px 24px;box-sizing:border-box;width:100%;min-height:100%}
 .page.on{display:block}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -84,7 +86,7 @@ tr:hover td{background:#f8faff}
 .modal-tabs{display:flex;border-bottom:1px solid var(--bd);background:#fff;padding:0 22px}
 .mtab{padding:12px 15px;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s}
 .mtab.on{color:var(--orange);border-bottom-color:var(--orange)}
-.modal-body{padding:0}
+.modal-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .mpane{display:none}
 .mpane.on{display:block}
 .pl-section{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px}
@@ -100,7 +102,7 @@ tr:hover td{background:#f8faff}
 .itin-day{border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;overflow:hidden}
 .itin-hdr{background:var(--blue);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:13px;font-weight:600}
 .itin-hdr:hover{background:#1e4a72}
-.itin-body{display:none;padding:14px}
+.itin-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .itin-body.open{display:block}
 .act-row{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #f8f9fb;font-size:13px;align-items:center}
 .act-row:last-child{border:none}
@@ -108,7 +110,7 @@ tr:hover td{background:#f8faff}
 .policy-section{background:#fff;border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
 .policy-hdr{background:var(--bg2);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:14px;font-weight:700;color:var(--blue)}
 .policy-hdr:hover{background:#e8eaf0}
-.policy-body{display:none;padding:16px;font-size:13px;line-height:1.75;color:var(--t2)}
+.policy-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .policy-body.open{display:block}
 .policy-body ul,.policy-body ol{padding-left:20px;margin:8px 0}
 .policy-body li{margin-bottom:6px}
@@ -129,7 +131,7 @@ tr:hover td{background:#f8faff}
 .visa-exp{color:var(--red);font-weight:600}
 .chk-row{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #f1f3f5;font-size:13px;align-items:flex-start}
 .chk-row:last-child{border:none}
-.nav-div{width:1px;height:24px;background:var(--bd);margin:0 4px;align-self:center;flex-shrink:0}
+.nav-div{display:none}
 .role-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;border:1.5px solid var(--bd);background:transparent;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:.15s;color:var(--t2);white-space:nowrap}
 .role-btn:hover{border-color:var(--blue);color:var(--blue)}
 .role-btn.active-role{color:#fff}
@@ -174,20 +176,88 @@ tbody tr{border-bottom:1px solid #e9ecef}
 .kpi{border-left:3px solid #e5e7eb}
 /* card top label bar */
 .card>.sh:first-child{margin:-16px -16px 12px;padding:10px 16px;background:#f8fafc;border-radius:8px 8px 0 0;border-bottom:1px solid #e5e7eb;border-left:none}
+
+/* ── SIDEBAR LAYOUT ── */
+.app-shell{flex:1;display:flex;overflow:hidden;min-height:0}
+.sidebar{width:220px;flex-shrink:0;background:#1a2332;color:#fff;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;height:100%;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.main-content{flex:1;overflow-y:auto;background:var(--bg3);min-width:0;min-height:0}
+.main-content .page.on{display:block !important}
+
+/* Sidebar nav items */
+.sb-group{padding:16px 14px 4px;font-size:10px;font-weight:800;color:rgba(255,255,255,.35);
+  text-transform:uppercase;letter-spacing:.8px}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.72);
+  cursor:pointer;border-radius:0;transition:.15s;border-left:3px solid transparent;
+  user-select:none;white-space:nowrap;
+}
+.sb-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.sb-item.on{
+  background:rgba(201,104,47,.18);color:#fff;font-weight:700;
+  border-left-color:#c9682f;
+}
+.sb-item .sb-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.sb-item .sb-label{flex:1}
+.sb-item .sb-badge{
+  background:rgba(201,104,47,.8);color:#fff;font-size:9px;font-weight:700;
+  padding:1px 5px;border-radius:8px;
+}
+.sb-divider{height:1px;background:rgba(255,255,255,.08);margin:6px 14px}
+
+/* Role switcher in sidebar */
+.sb-role{padding:12px 14px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto}
+.sb-role-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.35);
+  text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.sb-role-btn{
+  display:block;width:100%;text-align:left;padding:7px 10px;border-radius:6px;
+  font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);
+  background:transparent;color:rgba(255,255,255,.6);margin-bottom:4px;transition:.15s;
+}
+.sb-role-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-role-btn.active-role{
+  background:#c9682f;border-color:#c9682f;color:#fff;
+}
 </style>
 <script>
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('on'); });
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
   var pg = document.getElementById('pg-' + id);
-  if (pg) pg.classList.add('on');
-  document.querySelectorAll('.nav-tab').forEach(function(t) {
+  if(pg) pg.classList.add('on');
+  document.querySelectorAll('.sb-item').forEach(function(t){
     var oc = t.getAttribute('onclick') || '';
-    if (oc.indexOf("'" + id + "'") > -1) t.classList.add('on');
-    else t.classList.remove('on');
+    t.classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
   });
 }
 function showToast() {}
-function setRole() {}
+function setRole(r){
+  var ROLES={
+    manager:{pages:['home','calendar','itin','expenses','pax','tms','seema','workflow','sachin','sales','policy','docs','fleet','lerms','treasury','btb','hotels','tmlogistics']},
+    pre:    {pages:['home','calendar','itin','pax','sachin','sales','policy','docs','btb','hotels','tmlogistics']},
+    post:   {pages:['home','pax','tms','seema','workflow','sales','docs','lerms','btb']}
+  };
+  var allowed=ROLES[r]?ROLES[r].pages:[];
+  // Show/hide sidebar items
+  document.querySelectorAll('.sb-item[data-roles]').forEach(function(t){
+    var roles=t.getAttribute('data-roles').split(',');
+    t.style.display=roles.indexOf(r)>-1?'flex':'none';
+  });
+  // Show/hide pages
+  document.querySelectorAll('.page').forEach(function(p){
+    var pid=p.id.replace('pg-','');
+    if(allowed.indexOf(pid)<0) p.classList.remove('on');
+  });
+  // Role buttons
+  ['manager','pre','post'].forEach(function(x){
+    var b=document.getElementById('rb-'+x);
+    if(b)b.classList.toggle('active-role',x===r);
+  });
+  // If current active page is hidden, go home
+  var active=document.querySelector('.page.on');
+  if(!active||active.style.display==='none') showPage('home');
+}
 function filterTMVisa() {}
 </script>
 </head>
@@ -208,13 +278,8 @@ function filterTMVisa() {}
     </select>
     <span id="tourSelectorBadge" style="background:#dcfce7;color:#166534;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:700;white-space:nowrap">Active</span>
   </div>
-  <div style="display:flex;align-items:center;gap:6px;padding:0 14px;border-left:1px solid var(--bd);flex-shrink:0">
-    <span style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap">View</span>
-    <button class="role-btn role-manager active-role" id="rb-manager" onclick="setRole('manager')">👤 Manager</button>
-    <button class="role-btn role-pre" id="rb-pre" onclick="setRole('pre')">✈️ Pre-Travel</button>
-    <button class="role-btn role-post" id="rb-post" onclick="setRole('post')">🗺️ On Tour</button>
-  </div>
-  <div class="topbar-right">
+  
+  <div class="topbar-right" style="margin-left:auto">
     <div class="owner-tag"><span>Ops:</span>Seema Tabbasum</div>
     <div class="owner-tag"><span>Sales:</span>Sachin Keni</div>
     <div class="owner-tag"><span>CEO:</span>Vinay</div>
@@ -222,29 +287,90 @@ function filterTMVisa() {}
   </div>
 </div>
 <div id="roleIndicator" class="role-indicator role-manager"></div>
-<div class="nav" id="mainNav">
-  <div class="nav-tab on" onclick="showPage('home')" data-roles="manager,pre,post">🏠 Home</div>
-  <div class="nav-tab" onclick="showPage('calendar')" data-roles="manager,pre">📅 Calendar</div>
-  <div class="nav-div"></div>
-  <div class="nav-tab" onclick="showPage('itin')" data-roles="manager">📍 Costing Sheet</div>
-  <div class="nav-tab" onclick="showPage('expenses')" data-roles="manager">🧾 Expenses</div>
-  <div class="nav-div"></div>
-  <div class="nav-tab" onclick="showPage('pax')" data-roles="manager,pre,post">👥 Passengers</div>
-  <div class="nav-tab" onclick="showPage('tms')" data-roles="manager,post">🧭 Tour Managers</div>
-  <div class="nav-tab" onclick="showPage('seema')" data-roles="manager,post">⚙️ Ops</div>
-  <div class="nav-tab" onclick="showPage('workflow')" data-roles="manager,post">🔄 Workflow</div>
-  <div class="nav-div"></div>
-  <div class="nav-tab" onclick="showPage('sachin')" data-roles="manager,pre">📈 Sales</div>
-  <div class="nav-tab" onclick="showPage('sales')" data-roles="manager,pre,post">🛒 On-Tour</div>
-  <div class="nav-div"></div>
-  <div class="nav-tab" onclick="showPage('policy')" data-roles="manager,pre">📋 Policies</div>
-  <div class="nav-div"></div>
-  <div class="nav-tab" onclick="showPage('docs')" data-roles="manager,pre,post">📁 Docs</div>
-  <div class="nav-tab" onclick="showPage('lerms')" data-roles="manager,post">🧾 LERMS</div>
-  <div class="nav-tab" onclick="showPage('fleet')" data-roles="manager">🚌 Fleet</div>
+
+<div class="app-shell">
+<div class="sidebar" id="appSidebar">
+
+  <div class="sb-group">Overview</div>
+  <div class="sb-item on" onclick="showPage('home')" data-roles="manager,pre,post">
+    <span class="sb-icon">🏠</span><span class="sb-label">Home</span>
+  </div>
+  <div class="sb-item" onclick="showPage('calendar')" data-roles="manager,pre">
+    <span class="sb-icon">📅</span><span class="sb-label">Calendar</span>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-group">Finance</div>
+  <div class="sb-item" onclick="showPage('itin')" data-roles="manager">
+    <span class="sb-icon">📍</span><span class="sb-label">Costing Sheet</span>
+  </div>
+  <div class="sb-item" onclick="showPage('expenses')" data-roles="manager">
+    <span class="sb-icon">🧾</span><span class="sb-label">Expenses</span>
+  </div>
+  <div class="sb-item" onclick="showPage('treasury')" data-roles="manager">
+    <span class="sb-icon">💳</span><span class="sb-label">Treasury</span>
+    <span class="sb-badge">New</span>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-group">People & Tours</div>
+  <div class="sb-item" onclick="showPage('pax')" data-roles="manager,pre,post">
+    <span class="sb-icon">👥</span><span class="sb-label">Passengers</span>
+  </div>
+  <div class="sb-item" onclick="showPage('tms')" data-roles="manager,post">
+    <span class="sb-icon">🧭</span><span class="sb-label">Tour Managers</span>
+  </div>
+  <div class="sb-item" onclick="showPage('btb')" data-roles="manager,pre">
+    <span class="sb-icon">🔁</span><span class="sb-label">Back-to-Back</span>
+    <span class="sb-badge">New</span>
+  </div>
+  <div class="sb-item" onclick="showPage('hotels')" data-roles="manager,pre,post">
+    <span class="sb-icon">🏨</span><span class="sb-label">Hotels</span>
+    <span class="sb-badge">New</span>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-group">Operations</div>
+  <div class="sb-item" onclick="showPage('seema')" data-roles="manager,post">
+    <span class="sb-icon">⚙️</span><span class="sb-label">Ops</span>
+  </div>
+  <div class="sb-item" onclick="showPage('workflow')" data-roles="manager,post">
+    <span class="sb-icon">🔄</span><span class="sb-label">Workflow</span>
+  </div>
+  <div class="sb-item" onclick="showPage('tmlogistics')" data-roles="manager,pre">
+    <span class="sb-icon">📋</span><span class="sb-label">TM Logistics</span>
+    <span class="sb-badge">New</span>
+  </div>
+  <div class="sb-item" onclick="showPage('fleet')" data-roles="manager">
+    <span class="sb-icon">🚌</span><span class="sb-label">Fleet</span>
+  </div>
+  <div class="sb-item" onclick="showPage('lerms')" data-roles="manager,post">
+    <span class="sb-icon">💶</span><span class="sb-label">LERMS</span>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-group">Sales & Compliance</div>
+  <div class="sb-item" onclick="showPage('sachin')" data-roles="manager,pre">
+    <span class="sb-icon">📈</span><span class="sb-label">Sales</span>
+  </div>
+  <div class="sb-item" onclick="showPage('sales')" data-roles="manager,pre,post">
+    <span class="sb-icon">🛒</span><span class="sb-label">On-Tour Sales</span>
+  </div>
+  <div class="sb-item" onclick="showPage('policy')" data-roles="manager,pre">
+    <span class="sb-icon">📋</span><span class="sb-label">Policies</span>
+  </div>
+  <div class="sb-item" onclick="showPage('docs')" data-roles="manager,pre,post">
+    <span class="sb-icon">📁</span><span class="sb-label">Docs</span>
+  </div>
+
+  <div class="sb-role">
+    <div class="sb-role-label">View As</div>
+    <button class="sb-role-btn active-role" id="rb-manager" onclick="setRole('manager')">👤 Manager</button>
+    <button class="sb-role-btn" id="rb-pre" onclick="setRole('pre')">✈️ Pre-Travel</button>
+    <button class="sb-role-btn" id="rb-post" onclick="setRole('post')">🗺️ On Tour</button>
+  </div>
 </div>
-
-
+<div class="main-content" id="mainContent">
 <div class="page" id="pg-lerms">
   <div class="sh">TM LERMS &#8212; Euro Card Loading Sheet</div>
   <div class="alert a-blue" style="margin-bottom:14px">
@@ -1148,18 +1274,28 @@ const PAX=[
 ];
 
 function showPage(id){
-  // Role guard — block access to tabs not in current role
+  // Role guard
   if(typeof currentRole !== 'undefined' && typeof ROLES !== 'undefined'){
-    if(ROLES[currentRole] && !ROLES[currentRole].pages.includes(id)){
-      showToast('Not available in ' + ROLES[currentRole].label, 'blue');
+    if(ROLES[currentRole] && ROLES[currentRole].pages && !ROLES[currentRole].pages.includes(id)){
+      showToast('Not available in current view', 'blue');
       return;
     }
   }
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('on'));
-  document.getElementById('pg-'+id).classList.add('on');
-  const map={home:0,itin:1,pax:2,tms:3,seema:4,sachin:5,sales:6,expenses:7,workflow:8,policy:9,calendar:10,docs:11,fleet:12};
-  document.querySelectorAll('.nav-tab')[map[id]].classList.add('on');
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
+  // Show target page
+  var pg = document.getElementById('pg-' + id);
+  if(pg) pg.classList.add('on');
+  // Update sidebar active state
+  document.querySelectorAll('.sb-item').forEach(function(t){
+    var oc = t.getAttribute('onclick') || '';
+    t.classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
+  });
+  // Legacy nav-tab support (no-op if none exist)
+  document.querySelectorAll('.nav-tab').forEach(function(t){
+    var oc = t.getAttribute('onclick') || '';
+    t.classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
+  });
 }
 
 
@@ -2697,19 +2833,19 @@ const ROLES = {
   manager: {
     label: '👤 Manager View — Full Access',
     color: 'role-manager',
-    pages: ['home','calendar','itin','expenses','pax','tms','seema','workflow','sachin','sales','policy','docs','fleet','lerms'],
+    pages: ['home','calendar','itin','expenses','pax','tms','seema','workflow','sachin','sales','policy','docs','fleet','lerms','treasury','btb','hotels','tmlogistics'],
     defaultPage: 'home',
   },
   pre: {
     label: '✈️ Pre-Travel View — Bookings & Sales',
     color: 'role-pre',
-    pages: ['home','calendar','itin','pax','sachin','sales','policy','docs'],
+    pages: ['home','calendar','itin','pax','sachin','sales','policy','docs','btb','hotels','tmlogistics'],
     defaultPage: 'home',
   },
   post: {
     label: '🗺️ On-Tour View — Operations & Escalations',
     color: 'role-post',
-    pages: ['home','pax','tms','seema','workflow','sales','docs','lerms'],
+    pages: ['home','pax','tms','seema','workflow','sales','docs','lerms','btb'],
     defaultPage: 'home',
   },
 };
@@ -3362,6 +3498,35 @@ document.addEventListener('DOMContentLoaded', function(){
   <div id="calView-sales" style="display:none"><div id="salesTrackerContent"></div></div>
   <div id="calView-forecast" style="display:none"><div id="forecastContent"></div></div>
 </div>
+<div class="page" id="pg-treasury">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">💳 Treasury — Payment Control Centre</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Treasury module being built — Payment Tracker, Approval Matrix, Card OTP Log and Exception Register coming shortly.</div></div>
+  </div>
+</div>
 
+<div class="page" id="pg-btb">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">🔁 Back-to-Back Tours</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Back-to-Back tour chain visualiser being built — GTE = WOE + GOE with TM handover points, pax segment tracking and continuity planner coming shortly.</div></div>
+  </div>
+</div>
+
+<div class="page" id="pg-hotels">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">🏨 Hotels — WOE 2026</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Hotel confirmation tracker being built — city-by-city WOE route with reconfirm status, contacts and voucher tracking coming shortly.</div></div>
+  </div>
+</div>
+
+<div class="page" id="pg-tmlogistics">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">📋 TM Logistics</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>TM Logistics module being built — Tour Tracker checklist, Transfers, Balance Sheet and TM Contracting categories coming shortly.</div></div>
+  </div>
+</div>
+
+</div><!-- /main-content -->
+</div><!-- /app-shell -->
 </body>
 </html>
