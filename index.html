@@ -222,7 +222,7 @@ tbody tr{border-bottom:1px solid #e9ecef}
 }
 </style>
 <script>
-function showPage(id) {
+function showPage(id){
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
   var pg = document.getElementById('pg-' + id);
   if(pg) pg.classList.add('on');
@@ -259,6 +259,18 @@ function setRole(r){
   if(!active||active.style.display==='none') showPage('home');
 }
 function filterTMVisa() {}
+
+function sbNav(id){
+  var pages = document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++) pages[i].classList.remove('on');
+  var pg = document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('on');
+  var items = document.querySelectorAll('.sb-item');
+  for(var i=0;i<items.length;i++){
+    var oc = items[i].getAttribute('onclick')||'';
+    items[i].classList.toggle('on', oc.indexOf("'"+id+"'")>-1);
+  }
+}
 </script>
 </head>
 <body>
@@ -292,74 +304,74 @@ function filterTMVisa() {}
 <div class="sidebar" id="appSidebar">
 
   <div class="sb-group">Overview</div>
-  <div class="sb-item on" onclick="showPage('home')" data-roles="manager,pre,post">
+  <div class="sb-item on" onclick="sbNav('home')" data-roles="manager,pre,post">
     <span class="sb-icon">🏠</span><span class="sb-label">Home</span>
   </div>
-  <div class="sb-item" onclick="showPage('calendar')" data-roles="manager,pre">
+  <div class="sb-item" onclick="sbNav('calendar')" data-roles="manager,pre">
     <span class="sb-icon">📅</span><span class="sb-label">Calendar</span>
   </div>
 
   <div class="sb-divider"></div>
   <div class="sb-group">Finance</div>
-  <div class="sb-item" onclick="showPage('itin')" data-roles="manager">
+  <div class="sb-item" onclick="sbNav('itin')" data-roles="manager">
     <span class="sb-icon">📍</span><span class="sb-label">Costing Sheet</span>
   </div>
-  <div class="sb-item" onclick="showPage('expenses')" data-roles="manager">
+  <div class="sb-item" onclick="sbNav('expenses')" data-roles="manager">
     <span class="sb-icon">🧾</span><span class="sb-label">Expenses</span>
   </div>
-  <div class="sb-item" onclick="showPage('treasury')" data-roles="manager">
+  <div class="sb-item" onclick="sbNav('treasury')" data-roles="manager">
     <span class="sb-icon">💳</span><span class="sb-label">Treasury</span>
     <span class="sb-badge">New</span>
   </div>
 
   <div class="sb-divider"></div>
   <div class="sb-group">People & Tours</div>
-  <div class="sb-item" onclick="showPage('pax')" data-roles="manager,pre,post">
+  <div class="sb-item" onclick="sbNav('pax')" data-roles="manager,pre,post">
     <span class="sb-icon">👥</span><span class="sb-label">Passengers</span>
   </div>
-  <div class="sb-item" onclick="showPage('tms')" data-roles="manager,post">
+  <div class="sb-item" onclick="sbNav('tms')" data-roles="manager,post">
     <span class="sb-icon">🧭</span><span class="sb-label">Tour Managers</span>
   </div>
-  <div class="sb-item" onclick="showPage('btb')" data-roles="manager,pre">
+  <div class="sb-item" onclick="sbNav('btb')" data-roles="manager,pre">
     <span class="sb-icon">🔁</span><span class="sb-label">Back-to-Back</span>
     <span class="sb-badge">New</span>
   </div>
-  <div class="sb-item" onclick="showPage('hotels')" data-roles="manager,pre,post">
+  <div class="sb-item" onclick="sbNav('hotels')" data-roles="manager,pre,post">
     <span class="sb-icon">🏨</span><span class="sb-label">Hotels</span>
     <span class="sb-badge">New</span>
   </div>
 
   <div class="sb-divider"></div>
   <div class="sb-group">Operations</div>
-  <div class="sb-item" onclick="showPage('seema')" data-roles="manager,post">
+  <div class="sb-item" onclick="sbNav('seema')" data-roles="manager,post">
     <span class="sb-icon">⚙️</span><span class="sb-label">Ops</span>
   </div>
-  <div class="sb-item" onclick="showPage('workflow')" data-roles="manager,post">
+  <div class="sb-item" onclick="sbNav('workflow')" data-roles="manager,post">
     <span class="sb-icon">🔄</span><span class="sb-label">Workflow</span>
   </div>
-  <div class="sb-item" onclick="showPage('tmlogistics')" data-roles="manager,pre">
+  <div class="sb-item" onclick="sbNav('tmlogistics')" data-roles="manager,pre">
     <span class="sb-icon">📋</span><span class="sb-label">TM Logistics</span>
     <span class="sb-badge">New</span>
   </div>
-  <div class="sb-item" onclick="showPage('fleet')" data-roles="manager">
+  <div class="sb-item" onclick="sbNav('fleet')" data-roles="manager">
     <span class="sb-icon">🚌</span><span class="sb-label">Fleet</span>
   </div>
-  <div class="sb-item" onclick="showPage('lerms')" data-roles="manager,post">
+  <div class="sb-item" onclick="sbNav('lerms')" data-roles="manager,post">
     <span class="sb-icon">💶</span><span class="sb-label">LERMS</span>
   </div>
 
   <div class="sb-divider"></div>
   <div class="sb-group">Sales & Compliance</div>
-  <div class="sb-item" onclick="showPage('sachin')" data-roles="manager,pre">
+  <div class="sb-item" onclick="sbNav('sachin')" data-roles="manager,pre">
     <span class="sb-icon">📈</span><span class="sb-label">Sales</span>
   </div>
-  <div class="sb-item" onclick="showPage('sales')" data-roles="manager,pre,post">
+  <div class="sb-item" onclick="sbNav('sales')" data-roles="manager,pre,post">
     <span class="sb-icon">🛒</span><span class="sb-label">On-Tour Sales</span>
   </div>
-  <div class="sb-item" onclick="showPage('policy')" data-roles="manager,pre">
+  <div class="sb-item" onclick="sbNav('policy')" data-roles="manager,pre">
     <span class="sb-icon">📋</span><span class="sb-label">Policies</span>
   </div>
-  <div class="sb-item" onclick="showPage('docs')" data-roles="manager,pre,post">
+  <div class="sb-item" onclick="sbNav('docs')" data-roles="manager,pre,post">
     <span class="sb-icon">📁</span><span class="sb-label">Docs</span>
   </div>
 
@@ -1020,20 +1032,23 @@ function filterTMVisa() {}
 
 
 <div class="page" id="pg-calendar">
-  <div class="alert a-blue"><div class="a-icon">📅</div><div>All 6 WOE 2026 departure dates with key financial deadlines. <strong>Red dates</strong> = loss trigger (merge/cancel decision required). <strong>Amber</strong> = agent push deadline. <strong>Green</strong> = on-track milestones. Click any event for detail.</div></div>
-
-  <!-- MONTH TABS -->
-  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
-
-  <!-- CALENDAR GRID -->
-  <div id="calendarWrap"></div>
-
-  <!-- UPCOMING DEADLINES LIST -->
-  <div class="sh" style="margin-top:16px">🔔 Upcoming Deadlines — Next 60 Days (sorted by urgency)</div>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
-    <tbody id="deadlineBody"></tbody>
-  </table></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px" id="calKpis"></div>
+  <div style="display:flex;gap:6px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
+    <button class="btn on" id="cvt-calendar" onclick="switchCalView('calendar')" style="border-radius:6px 6px 0 0;margin-bottom:-2px;border-bottom:2px solid var(--blue);color:var(--blue)">&#128197; Calendar</button>
+    <button class="btn" id="cvt-sales" onclick="switchCalView('sales')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#128202; Sales Tracker</button>
+    <button class="btn" id="cvt-forecast" onclick="switchCalView('forecast')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#127919; Forecast &amp; Actions</button>
+  </div>
+  <div id="calView-calendar">
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
+    <div id="calendarWrap"></div>
+    <div class="sh" style="margin-top:16px">Upcoming Deadlines &#8212; Next 60 Days</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody id="deadlineBody"></tbody>
+    </table></div>
+  </div>
+  <div id="calView-sales" style="display:none"><div id="salesTrackerContent"></div></div>
+  <div id="calView-forecast" style="display:none"><div id="forecastContent"></div></div>
 </div>
 
 <div class="page" id="pg-docs">
@@ -1251,6 +1266,45 @@ function filterTMVisa() {}
             <div id="plWarnings"></div>
           </div>
   
+
+
+
+
+
+
+
+
+
+
+
+<div class="page" id="pg-treasury">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">💳 Treasury — Payment Control Centre</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Treasury module being built — Payment Tracker, Approval Matrix, Card OTP Log and Exception Register coming shortly.</div></div>
+  </div>
+</div>
+<div class="page" id="pg-btb">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">🔁 Back-to-Back Tours</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Back-to-Back tour chain visualiser being built — GTE = WOE + GOE with TM handover points, pax segment tracking and continuity planner coming shortly.</div></div>
+  </div>
+</div>
+<div class="page" id="pg-hotels">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">🏨 Hotels — WOE 2026</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Hotel confirmation tracker being built — city-by-city WOE route with reconfirm status, contacts and voucher tracking coming shortly.</div></div>
+  </div>
+</div>
+<div class="page" id="pg-tmlogistics">
+  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
+    <div class="sh">📋 TM Logistics</div>
+    <div class="alert a-blue"><div class="a-icon">🔧</div><div>TM Logistics module being built — Tour Tracker checklist, Transfers, Balance Sheet and TM Contracting categories coming shortly.</div></div>
+  </div>
+</div>
+
+</div><!-- /main-content -->
+</div><!-- /app-shell -->
+
 <script>
 
 const DEPS=[
@@ -1274,25 +1328,10 @@ const PAX=[
 ];
 
 function showPage(id){
-  // Role guard
-  if(typeof currentRole !== 'undefined' && typeof ROLES !== 'undefined'){
-    if(ROLES[currentRole] && ROLES[currentRole].pages && !ROLES[currentRole].pages.includes(id)){
-      showToast('Not available in current view', 'blue');
-      return;
-    }
-  }
-  // Hide all pages
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
-  // Show target page
   var pg = document.getElementById('pg-' + id);
   if(pg) pg.classList.add('on');
-  // Update sidebar active state
   document.querySelectorAll('.sb-item').forEach(function(t){
-    var oc = t.getAttribute('onclick') || '';
-    t.classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
-  });
-  // Legacy nav-tab support (no-op if none exist)
-  document.querySelectorAll('.nav-tab').forEach(function(t){
     var oc = t.getAttribute('onclick') || '';
     t.classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
   });
@@ -3475,58 +3514,9 @@ document.addEventListener('DOMContentLoaded', function(){
   buildDepCards();
   populateTourSelector();
   if (typeof initLerms === 'function') initLerms();
+  sbNav('home');
 });
 
 </script>
-
-<div class="page" id="pg-calendar">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px" id="calKpis"></div>
-  <div style="display:flex;gap:6px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
-    <button class="btn on" id="cvt-calendar" onclick="switchCalView('calendar')" style="border-radius:6px 6px 0 0;margin-bottom:-2px;border-bottom:2px solid var(--blue);color:var(--blue)">&#128197; Calendar</button>
-    <button class="btn" id="cvt-sales" onclick="switchCalView('sales')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#128202; Sales Tracker</button>
-    <button class="btn" id="cvt-forecast" onclick="switchCalView('forecast')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#127919; Forecast &amp; Actions</button>
-  </div>
-  <div id="calView-calendar">
-    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
-    <div id="calendarWrap"></div>
-    <div class="sh" style="margin-top:16px">Upcoming Deadlines &#8212; Next 60 Days</div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
-      <tbody id="deadlineBody"></tbody>
-    </table></div>
-  </div>
-  <div id="calView-sales" style="display:none"><div id="salesTrackerContent"></div></div>
-  <div id="calView-forecast" style="display:none"><div id="forecastContent"></div></div>
-</div>
-<div class="page" id="pg-treasury">
-  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
-    <div class="sh">💳 Treasury — Payment Control Centre</div>
-    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Treasury module being built — Payment Tracker, Approval Matrix, Card OTP Log and Exception Register coming shortly.</div></div>
-  </div>
-</div>
-
-<div class="page" id="pg-btb">
-  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
-    <div class="sh">🔁 Back-to-Back Tours</div>
-    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Back-to-Back tour chain visualiser being built — GTE = WOE + GOE with TM handover points, pax segment tracking and continuity planner coming shortly.</div></div>
-  </div>
-</div>
-
-<div class="page" id="pg-hotels">
-  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
-    <div class="sh">🏨 Hotels — WOE 2026</div>
-    <div class="alert a-blue"><div class="a-icon">🔧</div><div>Hotel confirmation tracker being built — city-by-city WOE route with reconfirm status, contacts and voucher tracking coming shortly.</div></div>
-  </div>
-</div>
-
-<div class="page" id="pg-tmlogistics">
-  <div style="background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:24px;margin-bottom:16px">
-    <div class="sh">📋 TM Logistics</div>
-    <div class="alert a-blue"><div class="a-icon">🔧</div><div>TM Logistics module being built — Tour Tracker checklist, Transfers, Balance Sheet and TM Contracting categories coming shortly.</div></div>
-  </div>
-</div>
-
-</div><!-- /main-content -->
-</div><!-- /app-shell -->
 </body>
 </html>
