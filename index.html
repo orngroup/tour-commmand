@@ -906,21 +906,7 @@ function filterTMVisa(){}
 </div>
 
 
-<div class="page" 
 
-  <!-- MONTH TABS -->
-  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
-
-  <!-- CALENDAR GRID -->
-  <div id="calendarWrap"></div>
-
-  <!-- UPCOMING DEADLINES LIST -->
-  <div class="sh" style="margin-top:16px">🔔 Upcoming Deadlines — Next 60 Days (sorted by urgency)</div>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
-    <tbody id="deadlineBody"></tbody>
-  </table></div>
-</div>
 
 <div class="page" id="pg-docs">
   <div style="background:linear-gradient(135deg,#1a3a5c,#1e4a72);color:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px">
@@ -1471,6 +1457,25 @@ function filterTMVisa(){}
     <div class="alert a-blue"><div class="a-icon">ℹ️</div><div><strong>GOS operates standalone</strong> — no back-to-back merge with European tours. Nordic charter coach (not same as WOE fleet). TM transfer via train RVN→HEL confirmed for Jan departure (€49.70, Deepa/Ops). Consider matching GOS end date with ISP start to utilise same TM back-to-back.</div></div>
   </div>
 
+</div>
+<div class="page" id="pg-calendar">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px" id="calKpis"></div>
+  <div style="display:flex;gap:6px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
+    <button class="btn on" id="cvt-calendar" onclick="switchCalView('calendar')" style="border-radius:6px 6px 0 0;margin-bottom:-2px;border-bottom:2px solid var(--blue);color:var(--blue)">&#128197; Calendar</button>
+    <button class="btn" id="cvt-sales" onclick="switchCalView('sales')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#128202; Sales Tracker</button>
+    <button class="btn" id="cvt-forecast" onclick="switchCalView('forecast')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#127919; Forecast &amp; Actions</button>
+  </div>
+  <div id="calView-calendar">
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
+    <div id="calendarWrap"></div>
+    <div class="sh" style="margin-top:16px">Upcoming Deadlines &#8212; Next 60 Days</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody id="deadlineBody"></tbody>
+    </table></div>
+  </div>
+  <div id="calView-sales" style="display:none"><div id="salesTrackerContent"></div></div>
+  <div id="calView-forecast" style="display:none"><div id="forecastContent"></div></div>
 </div>
 <div class="page" id="pg-hotels">
   <div style="background:#1a3a5c;color:#fff;border-radius:10px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
@@ -2541,8 +2546,8 @@ function exportCostingCSV(){
 // Auto-load on init
 function initCosting(){
   try {
-    const ov = localStorage.getItem('woe_costing_overrides');
-    const rates = localStorage.getItem('woe_costing_rates');
+    var ov = null, rates = null;
+    try { ov = localStorage.getItem('woe_costing_overrides'); rates = localStorage.getItem('woe_costing_rates'); } catch(e){}
     if(ov){ COSTING_OVERRIDES = JSON.parse(ov); }
     if(rates){
       const r = JSON.parse(rates);
@@ -3649,32 +3654,32 @@ function lermsReset() {
 function initLerms() { lermsBuild(); lermsCalc(); }
 
 document.addEventListener('DOMContentLoaded', function(){
-  try {
-
+  function safe(fn, label){
+    try { fn(); } catch(e){ console.error('Init ['+label+']:', e.message||e); }
+  }
   var dm = document.getElementById('depModal');
-  if (dm) dm.addEventListener('click', function(e){ if (e.target===this) closeModal(); });
+  if(dm) dm.addEventListener('click', function(e){ if(e.target===this) closeModal(); });
   var tm = document.getElementById('tmModal');
-  if (tm) tm.addEventListener('click', function(e){ if (e.target===this) closeTMModal(); });
-  if (typeof buildPaxTable === 'function') buildPaxTable(PAX);
-  if (typeof buildSalesFill === 'function') buildSalesFill();
-  if (typeof buildItin === 'function') buildItin();
-  if (typeof buildWF === 'function') { buildWF(WF1,'wf1'); buildWF(WF2,'wf2'); buildWF(WF3,'wf3'); }
-  if (typeof buildPolicies === 'function') buildPolicies();
-  initCosting();
-  buildCalendar();
-  buildTMTable(TMS);
-  initDocHub();
-  initFleet();
-  buildDepAssignGrid();
-  buildDepCards();
-  populateTourSelector();
-  if (typeof initLerms === 'function') initLerms();
-  if (typeof renderTrsTable === 'function') renderTrsTable(TRS_PAYMENTS);
-  if (typeof buildTourTracker === 'function') buildTourTracker();
-  if (typeof buildBalanceSheet === 'function') buildBalanceSheet();
-  if (typeof renderHotels === 'function') renderHotels(HOTELS_DATA);
-  if(typeof renderSlotting==='function') renderSlotting('');
-    } catch(err) { console.error('Dashboard init error:', err.message, err); }
+  if(tm) tm.addEventListener('click', function(e){ if(e.target===this) closeTMModal(); });
+  safe(function(){ if(typeof buildPaxTable==='function') buildPaxTable(PAX); }, 'paxTable');
+  safe(function(){ if(typeof buildSalesFill==='function') buildSalesFill(); }, 'salesFill');
+  safe(function(){ if(typeof buildItin==='function') buildItin(); }, 'itin');
+  safe(function(){ if(typeof buildWF==='function'){ buildWF(WF1,'wf1'); buildWF(WF2,'wf2'); buildWF(WF3,'wf3'); } }, 'workflow');
+  safe(function(){ if(typeof buildPolicies==='function') buildPolicies(); }, 'policies');
+  safe(function(){ initCosting(); }, 'costing');
+  safe(function(){ buildCalendar(); }, 'calendar');
+  safe(function(){ buildTMTable(TMS); }, 'tmTable');
+  safe(function(){ initDocHub(); }, 'docHub');
+  safe(function(){ initFleet(); }, 'fleet');
+  safe(function(){ buildDepAssignGrid(); }, 'depAssign');
+  safe(function(){ buildDepCards(); }, 'depCards');
+  safe(function(){ if(typeof populateTourSelector==='function') populateTourSelector(); }, 'tourSelector');
+  safe(function(){ if(typeof initLerms==='function') initLerms(); }, 'lerms');
+  safe(function(){ if(typeof renderTrsTable==='function') renderTrsTable(TRS_PAYMENTS); }, 'trsTable');
+  safe(function(){ if(typeof buildTourTracker==='function') buildTourTracker(); }, 'tourTracker');
+  safe(function(){ if(typeof buildBalanceSheet==='function') buildBalanceSheet(); }, 'balanceSheet');
+  safe(function(){ if(typeof renderHotels==='function') renderHotels(HOTELS_DATA); }, 'hotels');
+  safe(function(){ if(typeof renderSlotting==='function') renderSlotting(''); }, 'slotting');
   sbNav('home');
 });
 
@@ -3973,33 +3978,6 @@ function renderSlotting(filter){
   var cnt=document.getElementById('slottingCount'); if(cnt) cnt.textContent=data.length+' tours';
 }
 </script>
-
-<div class="page" id="pg-calendar">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px" id="calKpis"></div>
-  <div style="display:flex;gap:6px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
-    <button class="btn on" id="cvt-calendar" onclick="switchCalView('calendar')" style="border-radius:6px 6px 0 0;margin-bottom:-2px;border-bottom:2px solid var(--blue);color:var(--blue)">&#128197; Calendar</button>
-    <button class="btn" id="cvt-sales" onclick="switchCalView('sales')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#128202; Sales Tracker</button>
-    <button class="btn" id="cvt-forecast" onclick="switchCalView('forecast')" style="border-radius:6px 6px 0 0;margin-bottom:-2px">&#127919; Forecast &amp; Actions</button>
-  </div>
-  <div id="calView-calendar">
-    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="monthTabs"></div>
-    <div id="calendarWrap"></div>
-    <div class="sh" style="margin-top:16px">Upcoming Deadlines &#8212; Next 60 Days</div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Date</th><th>Days Away</th><th>Departure</th><th>Deadline Type</th><th>Action Required</th><th>Owner</th><th>Status</th></tr></thead>
-      <tbody id="deadlineBody"></tbody>
-    </table></div>
-  </div>
-  <div id="calView-sales" style="display:none"><div id="salesTrackerContent"></div></div>
-  <div id="calView-forecast" style="display:none"><div id="forecastContent"></div></div>
-</div>
-
-
-
-
-
-
-
 </div><!-- /main-content -->
 </div><!-- /app-shell -->
 </body>
