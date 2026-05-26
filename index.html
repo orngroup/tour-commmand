@@ -108,7 +108,7 @@ tr:hover td{background:#fafbfc}
 .policy-section{background:#fff;border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
 .policy-hdr{background:var(--bg2);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:14px;font-weight:700;color:var(--blue)}
 .policy-hdr:hover{background:#e8eaf0}
-.policy-body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.policy-body{display:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--t);background:var(--bg3);margin:0;padding:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .policy-body.open{display:block}
 .policy-body ul,.policy-body ol{padding-left:20px;margin:8px 0}
 .policy-body li{margin-bottom:6px}
@@ -167,29 +167,6 @@ html{height:100%;margin:0;padding:0}
 .sb-role-btn.active-role{background:#c9682f;border-color:#c9682f;color:#fff}
 </style>
 <script>
-function sbNav(id) {
-  /* Hide all pages */
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) {
-    pages[i].classList.remove('on');
-    pages[i].style.display = 'none';
-  }
-  /* Show target */
-  var pg = document.getElementById('pg-' + id);
-  if (pg) { pg.classList.add('on'); pg.style.display = 'block'; }
-  /* Sidebar active state */
-  var items = document.querySelectorAll('.sb-item');
-  for (var i = 0; i < items.length; i++) {
-    var oc = items[i].getAttribute('onclick') || '';
-    items[i].classList.toggle('on', oc.indexOf("'" + id + "'") > -1);
-  }
-}
-function showPage(id) { sbNav(id); }
-function showToast() {}
-function setRole() {}
-function filterTMVisa() {}
-</script>
-<script>
 function sbNav(id){
   var pages=document.querySelectorAll('.page');
   for(var i=0;i<pages.length;i++){
@@ -198,13 +175,19 @@ function sbNav(id){
   }
   var pg=document.getElementById('pg-'+id);
   if(pg){ pg.classList.add('on'); pg.style.display='block'; }
-  document.querySelectorAll('.sb-item').forEach(function(t){
-    var oc=t.getAttribute('onclick')||'';
-    t.classList.toggle('on', oc.indexOf("'"+id+"'")>-1);
-  });
+  var items=document.querySelectorAll('.sb-item');
+  for(var i=0;i<items.length;i++){
+    var oc=items[i].getAttribute('onclick')||'';
+    items[i].classList.toggle('on', oc.indexOf("'"+id+"'")>-1);
+  }
+  // Re-init pages that build their content dynamically
+  if(id==='calendar'&&typeof buildCalendar==='function'){try{buildCalendar();}catch(e){console.error('Cal:',e);}}
+  if(id==='tmlogistics'&&typeof buildTourTracker==='function'){try{buildTourTracker();buildBalanceSheet();}catch(e){console.error('TML:',e);}}
+  if(id==='policy'&&typeof buildPolicies==='function'){try{buildPolicies();}catch(e){console.error('Pol:',e);}}
 }
 function showPage(id){ sbNav(id); }
 function showToast(){}
+function setRole(){}
 function filterTMVisa(){}
 </script>
 </head>
@@ -1121,10 +1104,10 @@ function filterTMVisa(){}
       <tbody><tr><td>Vinod Aggarwal</td><td>27 Jan</td><td>🚂 Train</td><td>RVN → HEL</td><td style="text-align:right">€49.70</td><td><span class="badge b-green">Done</span></td></tr></tbody></table></div>
       <div class="sh">🏅 TM Seniority Categories</div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#1a3a5c;text-transform:uppercase;margin-bottom:5px">⭐ Senior A</div><div style="font-size:11px;line-height:1.7">Rohan · Mahesh · Anita · Subodh · Nadeem · Jitu · Raaj · Neeraj · Zubin · Nikhil · Ashish C · Yash</div></div>
-        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#0369a1;text-transform:uppercase;margin-bottom:5px">⭐ Senior B</div><div style="font-size:11px;line-height:1.7">Mahesh · Anirudh · Zeeshan · Masooma · Karishma · Saher · Mekail · Assumption · Vijay</div></div>
-        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;margin-bottom:5px">Senior C</div><div style="font-size:11px;line-height:1.7">Shahid · Shweta · William · Ketan · Yash · Bhavesh · Vijay · Syed Basheer</div></div>
-        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#d97706;text-transform:uppercase;margin-bottom:5px">🎓 Training + Freelance</div><div style="font-size:11px;line-height:1.7">Kevin · Fatima · Shahid<br><span style="color:#7c3aed">Freelance:</span> Nishad · Assumption · Yash Shah · Bhavesh</div></div>
+        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#1a3a5c;text-transform:uppercase;margin-bottom:5px">⭐ Senior A</div><div style="font-size:11px;line-height:1.7">Nadeem Mansoori · Mahesh Nyayanit · Neeraj Kambli · Subodh Thakur · Anita Kapadia · Rohan Apke · Anirudh Saini · Ashish Chandoskar · Jitu Kataria · Nikhil Kambli · Masooma Sayed · Zeeshan Musser · Raaj Navgrahe · Zubin Patel · Karishma Kherani · Saher Nawab · Ketan Sharma · Yash Shah · Bhavesh Pokhriyal · Vijay Panchal · Nishad Bahulkar · Assumption D'Costa · William Almeida · Syed Basheer</div></div>
+        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#0369a1;text-transform:uppercase;margin-bottom:5px">⭐ Senior B</div><div style="font-size:11px;line-height:1.7">Mekail Mistry · Zubin Patel · Karishma Kherani · Saher Nawab · Ketan Sharma · Yash Shah · Bhavesh Pokhriyal · Vijay Panchal · Nishad Bahulkar · Assumption D'Costa</div></div>
+        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;margin-bottom:5px">Senior C</div><div style="font-size:11px;line-height:1.7">MohammedShahid Sayed · Shweta Vijay · William Almeida · Syed Basheer Ahmed</div></div>
+        <div class="card" style="padding:10px"><div style="font-size:10px;font-weight:700;color:#d97706;text-transform:uppercase;margin-bottom:5px">🎓 Training</div><div style="font-size:11px;line-height:1.7">Kevin · Fatima · MohammedShahid Sayed</div><div style="font-size:10px;font-weight:700;color:#7c3aed;text-transform:uppercase;margin:5px 0 3px">Freelance</div><div style="font-size:11px;line-height:1.7">Nishad Bahulkar · Assumption D'Costa · Yash Shah · Bhavesh Pokhriyal</div></div>
       </div>
     </div>
   </div>
@@ -1433,7 +1416,27 @@ function filterTMVisa(){}
 
   <!-- ═══ WOE STANDALONE ═══ -->
   <div id="btb-view-woe" style="display:none">
-    <div class="sh">WOE Standalone — All 2026 Departures (Paris → Rome · 12N / 13D)</div>
+    <div class="sh">📅 Full Tour Slotting — All 65 Tours Jan–Jun 2026</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap">
+      <input id="slottingSearch" placeholder="Filter by code or name..." style="padding:7px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;width:220px" oninput="renderSlotting(this.value)">
+      <select id="slottingCode" onchange="renderSlotting(this.value)" style="padding:7px;border:1px solid #d1d5db;border-radius:6px;font-size:13px">
+        <option value="">All Tour Codes</option>
+        <option>WOE</option><option>GTE</option><option>GTE 1805</option><option>GTE 1905</option>
+        <option>ISP</option><option>ISPL</option><option>ISP-L</option><option>GOE</option>
+        <option>GOS</option><option>AZ</option><option>PGZ</option><option>SPG</option>
+        <option>UKS</option><option>EAG</option><option>ADHOC</option>
+      </select>
+      <span style="font-size:12px;color:var(--t3)" id="slottingCount">65 tours</span>
+    </div>
+    <div class="tbl-wrap" style="margin-bottom:18px"><table>
+      <thead><tr style="background:#1a3a5c">
+        <th style="color:#fff">Code</th><th style="color:#fff">Tour Name</th><th style="color:#fff">Departure</th><th style="color:#fff">Nights</th>
+        <th style="color:#fff">Route</th><th style="color:#fff">Tour Manager</th><th style="color:#fff">Plan B</th>
+        <th style="color:#fff">Insurance</th><th style="color:#fff">LERMS</th>
+      </tr></thead>
+      <tbody id="slottingBody"></tbody>
+    </table></div>
+    <div class="sh">WOE Standalone — Departures Only — All 2026 Departures (Paris → Rome · 12N / 13D)</div>
     <div class="tbl-wrap"><table>
       <thead><tr style="background:#1a3a5c"><th style="color:#fff">Departure</th><th style="color:#fff">Date</th><th style="color:#fff">End Date</th><th style="color:#fff">Tour Manager</th><th style="color:#fff">Plan B</th><th style="color:#fff">Merged With</th><th style="color:#fff">Coach Status</th><th style="color:#fff">Ins</th><th style="color:#fff">LERMS</th></tr></thead>
       <tbody>
@@ -1537,18 +1540,8 @@ function filterTMVisa(){}
             <div class="pl-section"><h4>Summary P&amp;L</h4>
               <div class="pl-row"><span class="pl-label">Tour Revenue</span><span class="pl-value profit-pos" id="sumRev">—</span></div>
               <div class="pl-row"><span class="pl-label">Total Costs (fixed + variable)</span><span class="pl-value profit-neg" id="sumCosts">—</span></div>
-              <div class="pl-total" id="sumMargin"><span>Net Margin</span><span>—</span></div>
-            </div>
-            <div class="pl-section"><h4>Break-Even Analysis</h4>
-              <div class="pl-row"><span class="pl-label">Break-even pax (fixed costs only, £2,500/pp)</span><span class="pl-value">24 pax</span></div>
-              <div class="pl-row"><span class="pl-label">Current vs break-even</span><span class="pl-value profit-pos" id="beGap">—</span></div>
-              <div class="pl-row"><span class="pl-label">Revenue per additional pax</span><span class="pl-value profit-pos">~£1,600 net</span></div>
-            </div>
-            <div id="plWarnings"></div>
-          </div>
-  
+              <div class="pl-total" id="sumMargin">
 <script>
-
 const DEPS=[
   {id:'WOE-01',date:'09 May 2026',ref:'WOE090526',pax:38,cap:40,status:'Active',risk:'critical',note:'On tour now — Day 14',issues:['Jungfrau €6,300 company cash not declared (§04)','Daily report overdue (§21)']},
   {id:'WOE-02',date:'30 May 2026',ref:'WOE300526',pax:40,cap:40,status:'Confirmed',risk:'warning',note:'Departs in 7 days — T-7 voucher check OVERDUE',issues:['T-7 voucher check not completed (§13)']},
@@ -2651,9 +2644,22 @@ function recalcAll(){
 const TODAY = new Date('2026-05-24');
 
 function daysBetween(d1, d2){ return Math.round((d2-d1)/(1000*60*60*24)); }
-function addDays(d, n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+function addDays(d, n){ if(!d||isNaN(d.getTime())) return null; const r=new Date(d); r.setDate(r.getDate()+n); return r; }
 
-function parseDt(s){ const [d,m,y]=s.split(' '); const months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}; return new Date(y,months[m],d); }
+function parseDt(s){
+  if(!s||typeof s!=='string') return null;
+  var months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  var parts=s.trim().split(' ');
+  if(parts.length===3){
+    var d=parseInt(parts[0]),m=months[parts[1]],y=parseInt(parts[2]);
+    if(!isNaN(d)&&m!==undefined&&!isNaN(y)) return new Date(y,m,d);
+  }
+  if(parts.length===2){
+    if(months[parts[0]]!==undefined) return new Date(parseInt(parts[1]),months[parts[0]],1);
+    if(months[parts[1]]!==undefined) return new Date(2026,months[parts[1]],parseInt(parts[0]));
+  }
+  var dt=new Date(s); return isNaN(dt.getTime())?null:dt;
+}
 
 // Build calendar events from DEPS
 var DEP_SALES = [
@@ -2780,6 +2786,7 @@ function buildCalendarEvents(){
     const dep = parseDt(d.date);
     const pct = Math.round(d.pax/d.cap*100);
     // departure itself
+    if(!dep||isNaN(dep.getTime())) return; // skip bad dates
     events.push({date:dep, dep:d.id, type:'departure', label:d.id+' Departure', color:'#1a3a5c', pax:d.pax, cap:d.cap});
     // T-7 voucher check
     events.push({date:addDays(dep,-7), dep:d.id, type:'voucher', label:d.id+' T-7 Vouchers', color:'#7c3aed', owner:'Seema'});
@@ -2885,7 +2892,7 @@ function buildDeadlines(events){
   if(!tb) return;
   const upcoming = events
     .map(e => ({...e, days: daysBetween(TODAY, e.date)}))
-    .filter(e => e.days >= -7 && e.days <= 90)
+    .filter(e => e.date && !isNaN(e.date.getTime()) && e.days >= -7 && e.days <= 90)
     .sort((a,b) => a.days - b.days);
 
   tb.innerHTML = '';
@@ -3642,6 +3649,8 @@ function lermsReset() {
 function initLerms() { lermsBuild(); lermsCalc(); }
 
 document.addEventListener('DOMContentLoaded', function(){
+  try {
+
   var dm = document.getElementById('depModal');
   if (dm) dm.addEventListener('click', function(e){ if (e.target===this) closeModal(); });
   var tm = document.getElementById('tmModal');
@@ -3664,6 +3673,8 @@ document.addEventListener('DOMContentLoaded', function(){
   if (typeof buildTourTracker === 'function') buildTourTracker();
   if (typeof buildBalanceSheet === 'function') buildBalanceSheet();
   if (typeof renderHotels === 'function') renderHotels(HOTELS_DATA);
+  if(typeof renderSlotting==='function') renderSlotting('');
+    } catch(err) { console.error('Dashboard init error:', err.message, err); }
   sbNav('home');
 });
 
@@ -3770,58 +3781,196 @@ function hotelFilter(){
   renderHotels(HOTELS_DATA.filter(function(h){ return (!city||h.city===city)&&(!status||h.status===status); }));
 }
 
-// ─── TM LOGISTICS ────────────────────────────────────────────────────
-var TOUR_TRACKER=[
-  {sr:1,code:'GOS 23/01',tm:'Vinod Aggarwal',pay:'DONE',git:true,f1:true,f2:true,ins:true,room:true,hotel:true,lerms:true,itin:true,vouchers:true},
-  {sr:2,code:'Travelling Architects 23/01',tm:'Yash Shah',pay:'DONE',git:true,f1:true,f2:true,ins:false,room:true,hotel:true,lerms:true,itin:true,vouchers:true},
-  {sr:3,code:'Journey Makers 04/03',tm:'Pukhraj Singh',pay:'DONE',git:true,f1:true,f2:true,ins:false,room:true,hotel:true,lerms:true,itin:true,vouchers:true},
-  {sr:4,code:'GTE 24/03',tm:'Anita Kapadia',pay:'DONE',git:true,f1:true,f2:false,ins:true,room:true,hotel:true,lerms:true,itin:true,vouchers:true},
-  {sr:5,code:'GTE 07/04',tm:'Anita Kapadia',pay:'',git:true,f1:true,f2:false,ins:false,room:false,hotel:false,lerms:false,itin:false,vouchers:false},
-  {sr:6,code:'Travel Expert 09/04',tm:'TBC',pay:'',git:false,f1:false,f2:false,ins:false,room:false,hotel:false,lerms:false,itin:false,vouchers:false},
-  {sr:7,code:'ISP 10/04',tm:'TBC',pay:'',git:false,f1:false,f2:false,ins:false,room:false,hotel:false,lerms:false,itin:false,vouchers:false},
-  {sr:8,code:'Travel Expert 20/04',tm:'TBC',pay:'',git:false,f1:false,f2:false,ins:false,room:false,hotel:false,lerms:false,itin:false,vouchers:false},
-  {sr:9,code:'Best In Europe 24/04',tm:'TBC',pay:'',git:false,f1:false,f2:false,ins:false,room:false,hotel:false,lerms:false,itin:false,vouchers:false},
+
+// ═══════════════════════════════════════════════════════════════════════
+// REAL DATA FROM SHEETS — Tour_Manager_Logistics_2026.xlsx
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Tour Tracker — all 9 real rows from 'Tour Tracker' sheet ──────────
+var TOUR_TRACKER = [
+  {sr:1, code:'GOS 23/01',              tm:'Vinod Aggarwal',    pay:'DONE', git:true,  f1:true,  f2:true,  dummy:'NA', ins:true,  room:true,  hotel:true,  lerms:true,  itin:true,  vouchers:true},
+  {sr:2, code:'Travelling Architects 23/01', tm:'Yash Shah',   pay:'DONE', git:true,  f1:true,  f2:true,  dummy:'NA', ins:false, room:true,  hotel:true,  lerms:true,  itin:true,  vouchers:true},
+  {sr:3, code:'Journey Makers 04/03',   tm:'Pukhraj Singh',     pay:'DONE', git:true,  f1:true,  f2:true,  dummy:'NA', ins:false, room:true,  hotel:true,  lerms:true,  itin:true,  vouchers:true},
+  {sr:4, code:'GTE 24/03',              tm:'Anita Kapadia',     pay:'DONE', git:true,  f1:true,  f2:false, dummy:'NA', ins:true,  room:true,  hotel:true,  lerms:true,  itin:true,  vouchers:true},
+  {sr:5, code:'GTE 07/04',              tm:'Anita Kapadia',     pay:'',     git:true,  f1:true,  f2:false, dummy:'NA', ins:false, room:false, hotel:false, lerms:false, itin:false, vouchers:false},
+  {sr:6, code:'Travel Expert 09/04',    tm:'Ashish C',          pay:'',     git:false, f1:false, f2:false, dummy:false,ins:false, room:false, hotel:false, lerms:false, itin:false, vouchers:false},
+  {sr:7, code:'ISP 10/04',              tm:'Mekail',            pay:'',     git:false, f1:false, f2:false, dummy:false,ins:false, room:false, hotel:false, lerms:false, itin:false, vouchers:false},
+  {sr:8, code:'Travel Expert 20/04',    tm:'Rohan',             pay:'',     git:false, f1:false, f2:false, dummy:false,ins:false, room:false, hotel:false, lerms:false, itin:false, vouchers:false},
+  {sr:9, code:'Best In Europe 24/04',   tm:'',                  pay:'',     git:false, f1:false, f2:false, dummy:false,ins:false, room:false, hotel:false, lerms:false, itin:false, vouchers:false},
 ];
-var BALANCE_DATA=[
-  {date:'03 May 2026',code:'Opening',tm:'Saif Sir',type:'Opening Balance',debit:0,credit:34158.46,balance:34158.46},
-  {date:'09 Apr 2026',code:'ISP 10/04',tm:'Mekail Mistry',type:'LERMS',debit:3015.30,credit:0,balance:31143.16},
-  {date:'11 Apr 2026',code:'GTE 14/04',tm:'Nadeem Masoori',type:'LERMS',debit:3805.20,credit:0,balance:27337.96},
-  {date:'13 Apr 2026',code:'JDS 15/04',tm:'Subodh Thakur',type:'LERMS',debit:3024.00,credit:0,balance:24313.96},
+
+// ── Balance Sheet — real entries from 'Balance Sheet' sheet ───────────
+// Opening: €34,158.46 (Saif Sir)
+// ISP 10/04: Mekail Mistry debited €3,015.30
+// GTE 14/04: Nadeem Masoori debited €3,805.20
+// JDS 15/04: Subodh Thakur debited €3,024.00
+var BALANCE_DATA = [
+  {date:'03 May 2026', code:'Opening',    tm:'Saif Sir',        type:'Opening Balance', debit:0,       credit:34158.46, balance:34158.46, remark:''},
+  {date:'09 Apr 2026', code:'ISP 10/04', tm:'Mekail Mistry',   type:'LERMS Load',      debit:3015.30, credit:0,        balance:31143.16, remark:''},
+  {date:'11 Apr 2026', code:'GTE 14/04', tm:'Nadeem Masoori',  type:'LERMS Load',      debit:3805.20, credit:0,        balance:27337.96, remark:''},
+  {date:'13 Apr 2026', code:'JDS 15/04', tm:'Subodh Thakur',   type:'LERMS Load',      debit:3024.00, credit:0,        balance:24313.96, remark:''},
 ];
+
+// ── Tour Slotting — all 65 tours from 'Tour Manager Slotting' sheet ───
+var TOUR_SLOTTING = [
+  {code:'GOS',     name:'Glimpses of Scandinavia (NL)',   date:'23 Jan', nights:8,  inCity:'Oslo',      outCity:'Rovaniemi', tm:'Vinod Aggarwal',          planb:'',               ins:'True',  lerms:'True'},
+  {code:'ADHOC',   name:'Travelling Architects',          date:'23 Jan', nights:8,  inCity:'Rome',      outCity:'Milan',     tm:'Yash Shah',               planb:'',               ins:'NA',    lerms:'True'},
+  {code:'GOS',     name:'Glimpses of Scandinavia',        date:'03 Mar', nights:8,  inCity:'Oslo',      outCity:'Rovaniemi', tm:'TBC',                     planb:'',               ins:'NA',    lerms:'NA'},
+  {code:'ADHOC',   name:'Journey Makers',                 date:'04 Mar', nights:9,  inCity:'Oslo',      outCity:'Rovaniemi', tm:'Pukhraj Singh',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'13 Mar', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'TBC',                     planb:'',               ins:'NA',    lerms:'NA'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'24 Mar', nights:15, inCity:'London',    outCity:'Rome',      tm:'Anita Kapadia',           planb:'',               ins:'True',  lerms:'True'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'07 Apr', nights:15, inCity:'London',    outCity:'Rome',      tm:'Anita Kapadia',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'PGZ',     name:'Paris Swiss Charm',              date:'10 Apr', nights:7,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Jordan Sonamla',          planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ADHOC',   name:'Travel Expert',                  date:'09 Apr', nights:10, inCity:'Paris',     outCity:'Arezzo',    tm:'Ashish Chandoskar',       planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'10 Apr', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Mekail Mistry',           planb:'',               ins:'True',  lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'14 Apr', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Purushotam',              planb:'',               ins:'NA',    lerms:'True'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'14 Apr', nights:15, inCity:'London',    outCity:'Rome',      tm:'Nadeem Mansoori',         planb:'',               ins:'True',  lerms:'True'},
+  {code:'ADHOC',   name:'JDS Holidays',                   date:'15 Apr', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Subodh / William',        planb:'',               ins:'NA',    lerms:'True'},
+  {code:'UKS',     name:'UK & Scotland',                  date:'16 Apr', nights:7,  inCity:'London',    outCity:'London',    tm:'Driver',                  planb:'',               ins:'NA',    lerms:'NA'},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'17 Apr', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Vinod Aggarwal',          planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ADHOC',   name:'Travel Expert',                  date:'20 Apr', nights:10, inCity:'Paris',     outCity:'Arezzo',    tm:'Rohan Apke',              planb:'',               ins:'True',  lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'21 Apr', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Mekail / Subodh',         planb:'',               ins:'NA',    lerms:'True'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'21 Apr', nights:15, inCity:'London',    outCity:'Rome',      tm:'Yash / Avinash',          planb:'',               ins:'NA',    lerms:'True'},
+  {code:'AZ',      name:'Classic Europe',                 date:'22 Apr', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Driver / Yash',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ISPL',    name:'Italy Swiss Paris London',       date:'24 Apr', nights:13, inCity:'Rome',      outCity:'London',    tm:'Subodh / Mekail / Raaj',  planb:'',               ins:'NA',    lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'27 Apr', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Vinod Aggarwal',          planb:'',               ins:'NA',    lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'28 Apr', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'William Almeida',         planb:'',               ins:'NA',    lerms:'True'},
+  {code:'AZ',      name:'Classic Europe',                 date:'28 Apr', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'FIT / Gaurav',            planb:'',               ins:'NA',    lerms:'NA'},
+  {code:'AZ',      name:'Classic Europe',                 date:'29 Apr', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'FIT / Gaurav',            planb:'',               ins:'NA',    lerms:'NA'},
+  {code:'ADHOC',   name:'Gandhi Tours',                   date:'30 Apr', nights:10, inCity:'Paris',     outCity:'Arezzo',    tm:'Ashish Chandoskar',       planb:'',               ins:'NA',    lerms:'True'},
+  {code:'PGZ',     name:'Paris Swiss Charm',              date:'01 May', nights:7,  inCity:'Amsterdam', outCity:'Zurich',    tm:'FIT / Gaurav',            planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'01 May', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Nadeem Mansoori',         planb:'',               ins:'NA',    lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'01 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Gaurav',                  planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ADHOC',   name:'Exclusive Trips',                date:'02 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Mekail Mistry',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'05 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Subodh Thakur',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'05 May', nights:15, inCity:'London',    outCity:'Rome',      tm:'Raaj (London) / Nadeem (Paris)', planb:'',        ins:'True',  lerms:'True'},
+  {code:'UKS',     name:'UK & Scotland',                  date:'07 May', nights:7,  inCity:'London',    outCity:'London',    tm:'Raaj (GTE 08/05 + FIT)',  planb:'',               ins:'True',  lerms:'True'},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'08 May', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Avinash',                 planb:'',               ins:'True',  lerms:'True'},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'08 May', nights:15, inCity:'London',    outCity:'Rome',      tm:'Raaj',                    planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ADHOC',   name:'C Near Me',                      date:'09 May', nights:6,  inCity:'Zurich',    outCity:'Rome',      tm:'Anirudh Saini',           planb:'',               ins:'True',  lerms:'True'},
+  {code:'ADHOC',   name:'VS Tourism',                     date:'10 May', nights:14, inCity:'Paris',     outCity:'Rome',      tm:'Zubin Patel',             planb:'',               ins:'True',  lerms:'True'},
+  {code:'ADHOC',   name:'365 International',              date:'11 May', nights:8,  inCity:'Zurich',    outCity:'Paris',     tm:'Jitu Kataria',            planb:'',               ins:'True',  lerms:'True'},
+  {code:'ADHOC',   name:'Gandhi Tours',                   date:'14 May', nights:11, inCity:'Paris',     outCity:'Arezzo',    tm:'Ashish Chandoskar',       planb:'',               ins:'True',  lerms:'True'},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'15 May', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Anirudh Saini',           planb:'',               ins:'True',  lerms:'True'},
+  {code:'GTE 1805',name:'Grand Tour of Europe',           date:'18 May', nights:15, inCity:'London',    outCity:'Rome',      tm:'Subodh Thakur',           planb:'',               ins:'NA',    lerms:'True'},
+  {code:'ADHOC',   name:'Vayudoot World Travels',         date:'18 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Jitu Kataria',            planb:'',               ins:'True',  lerms:'True'},
+  {code:'WOE',     name:'Wonders of Europe',              date:'19 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Rohan Apke',              planb:'',               ins:'True',  lerms:''},
+  {code:'GTE 1905',name:'Grand Tour of Europe',           date:'22 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Avinash',                 planb:'',               ins:'True',  lerms:'True'},
+  {code:'ISP-L',   name:'Italy Swiss Paris London',       date:'22 May', nights:13, inCity:'Rome',      outCity:'Paris',     tm:'Raaj',                    planb:'',               ins:'True',  lerms:'True'},
+  {code:'SPG',     name:'Swiss Paris Glance',             date:'26 May', nights:6,  inCity:'Zurich',    outCity:'Paris',     tm:'Zubin Patel',             planb:'',               ins:'True',  lerms:''},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'25 May', nights:15, inCity:'London',    outCity:'Rome',      tm:'Assumption D\'Costa',     planb:'Raja (driver)',  ins:'',      lerms:''},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'26 May', nights:15, inCity:'London',    outCity:'Rome',      tm:'Nikhil Kambli',           planb:'Raja (driver)',  ins:'',      lerms:''},
+  {code:'GOE',     name:'Glimpses of Europe',             date:'29 May', nights:8,  inCity:'Paris',     outCity:'Zurich',    tm:'Vijay Panchal',           planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe (High Load)',  date:'26 May', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Mekail Mistry',           planb:'Saher (GOE)',    ins:'',      lerms:''},
+  {code:'AZ',      name:'Classic Europe',                 date:'27 May', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Karishma Kherani',        planb:'',               ins:'',      lerms:''},
+  {code:'ADHOC',   name:'Gandhi Tours',                   date:'28 May', nights:11, inCity:'Paris',     outCity:'Arezzo',    tm:'Ashish Chandoskar',       planb:'',               ins:'',      lerms:''},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'29 May', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Mahesh Nyayanit',         planb:'',               ins:'',      lerms:''},
+  {code:'ADHOC',   name:'Vayudoot World Travels',         date:'02 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Jitu Kataria',            planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe',              date:'02 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Raaj Navgrahe',           planb:'',               ins:'',      lerms:''},
+  {code:'AZ',      name:'Classic Europe',                 date:'03 Jun', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Rohan Apke',              planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe',              date:'05 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Zubin Patel',             planb:'William (WOE)',  ins:'',      lerms:''},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'05 Jun', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Karishma Kherani',        planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe',              date:'09 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Mahesh Nyayanit',         planb:'',               ins:'',      lerms:''},
+  {code:'GTE',     name:'Grand Tour of Europe',           date:'09 Jun', nights:15, inCity:'London',    outCity:'Rome',      tm:'Nikhil Kambli',           planb:'',               ins:'',      lerms:''},
+  {code:'AZ',      name:'Classic Europe',                 date:'10 Jun', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Vijay Panchal',           planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe',              date:'16 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'Karishma Kherani',        planb:'',               ins:'',      lerms:''},
+  {code:'EAG',     name:'Europe at a Glance',             date:'16 Jun', nights:9,  inCity:'Zurich',    outCity:'London',    tm:'Rohan Apke',              planb:'',               ins:'',      lerms:''},
+  {code:'ADHOC',   name:'Exclusive Trips',                date:'23 Jun', nights:17, inCity:'Amsterdam', outCity:'Rome',      tm:'Mekail Mistry',           planb:'',               ins:'',      lerms:''},
+  {code:'AZ',      name:'Classic Europe',                 date:'24 Jun', nights:9,  inCity:'Amsterdam', outCity:'Zurich',    tm:'Mahesh Nyayanit',         planb:'',               ins:'',      lerms:''},
+  {code:'ISP',     name:'Italy Swiss Paris',              date:'26 Jun', nights:10, inCity:'Rome',      outCity:'Paris',     tm:'Rohan Apke',              planb:'',               ins:'',      lerms:''},
+  {code:'WOE',     name:'Wonders of Europe',              date:'30 Jun', nights:12, inCity:'Paris',     outCity:'Rome',      tm:'TBC',                     planb:'',               ins:'',      lerms:''},
+];
+
+// ── TM Contracting — full list from 'Tour Manager Contracting' sheet ─
+var TM_CONTRACTED = [
+  'Nadeem Mansoori','Mahesh Jagannath Nyayanit','Neeraj Kambli','Subodh Chandrakant Thakur',
+  'Vinod Aggarwal','Anita Kapadia','Rohan Manohar Apke','Anirudh Govindram Saini',
+  'Ashish Vijay Chandoskar','Syed Zeeshan Musser','Jitu Kataria','William S Almeida',
+  'Rakshith Mandanna','Nishad Ashok Bahulkar','Nikhil Kambli','Masooma Sayed',
+  'Wasim Ahmad Guroo','Syed Basheer Ahmed','MohammedShahid Sayed','Syed Asif Quadri',
+  'Sagar Hari Dusane','Shweta Vijay','RAAJ Dinesh Navgrahe','Milind Pradeep Shete',
+  'Mekail Mistry','Zubin Sarosh Patel','Assumption Milagres D\'Costa','Karishma Kherani',
+  'Jorden Sonamla','Saher Nawab','Ketan Krishan Sharma'
+];
+var TM_FREELANCE  = ['Nishad Ashok Bahulkar','Assumption Milagres D\'Costa','Yash Shah','Bhavesh Pokhriyal'];
+var TM_TRAINING   = ['Kevin','Fatima','MohammedShahid Sayed'];
+var TM_SENIOR_A   = ['Nadeem Mansoori','Mahesh Jagannath Nyayanit','Neeraj Kambli','Subodh Chandrakant Thakur','Anita Kapadia','Rohan Manohar Apke','Anirudh Govindram Saini','Ashish Vijay Chandoskar','Jitu Kataria','Nikhil Kambli','Masooma Sayed','Syed Zeeshan Musser','RAAJ Dinesh Navgrahe','Zubin Sarosh Patel','Karishma Kherani','Saher Nawab','Ketan Krishan Sharma','Yash Shah','Bhavesh Pokhriyal','VIJAY VITHALBHAI PANCHAL','Nishad Ashok Bahulkar','Assumption Milagres D\'Costa','William S Almeida','Syed Basheer Ahmed'];
+var TM_SENIOR_B   = ['Mekail Mistry','Zubin Sarosh Patel','Karishma Kherani','Saher Nawab','Ketan Krishan Sharma','Yash Shah','Bhavesh Pokhriyal','VIJAY VITHALBHAI PANCHAL','Nishad Ashok Bahulkar','Assumption Milagres D\'Costa'];
+var TM_SENIOR_C   = ['MohammedShahid Sayed','Shweta Vijay','William S Almeida','Syed Basheer Ahmed'];
+
+
+
 function buildTourTracker(){
   var tb=document.getElementById('tourTrackerBody'); if(!tb) return;
   function tick(v){
-    if(v===true) return '<span style="color:#166534;font-weight:700">✓</span>';
-    if(v===false) return '<span style="color:#b91c1c">✗</span>';
-    return '<span style="color:var(--t3)">—</span>';
+    if(v===true||v==='True') return '<span style="color:#166534;font-weight:700">&#10003;</span>';
+    if(v===false||v==='False') return '<span style="color:#b91c1c">&#10007;</span>';
+    if(v==='NA'||v==='na') return '<span style="color:#9ca3af;font-size:11px">NA</span>';
+    return '<span style="color:#9ca3af">&#8212;</span>';
   }
+  if(typeof TOUR_TRACKER==='undefined') return;
   tb.innerHTML=TOUR_TRACKER.map(function(r,i){
-    var fields=[r.git,r.f1,r.f2,r.ins,r.room,r.hotel,r.lerms,r.itin,r.vouchers];
-    var done=fields.filter(function(v){return v===true;}).length;
-    var pct=Math.round(done/fields.length*100);
+    var fields=[r.git,r.f1,r.f2,r.dummy,r.ins,r.room,r.hotel,r.lerms,r.itin,r.vouchers];
+    var scored=fields.filter(function(v){return v!=='NA'&&v!=='na';});
+    var done=scored.filter(function(v){return v===true||v==='True';}).length;
+    var pct=scored.length>0?Math.round(done/scored.length*100):0;
     var col=pct===100?'#166534':pct>=50?'#d97706':'#b91c1c';
-    return '<tr style="'+(i%2?'background:#fafbfd':'')+'"><td style="text-align:center;font-size:12px">'+r.sr+'</td>'
-    +'<td><strong style="font-size:12px">'+r.code+'</strong></td>'
-    +'<td style="font-size:12px">'+(r.tm||'<span style="color:#b91c1c">TBC</span>')+'</td>'
-    +'<td><span class="badge '+(r.pay==='DONE'?'b-green':r.pay?'b-amber':'b-red')+'" style="font-size:10px">'+(r.pay||'Pending')+'</span></td>'
-    +fields.map(function(v){return '<td style="text-align:center;font-size:13px">'+tick(v)+'</td>';}).join('')
-    +'<td><div style="font-size:11px;font-weight:800;color:'+col+'">'+pct+'%</div><div style="height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+col+'"></div></div></td>'
-    +'</tr>';
+    var bg=i%2?'background:#fafbfd':'';
+    var payCls=r.pay==='DONE'?'b-green':r.pay?'b-amber':'b-red';
+    return '<tr style="'+bg+'">'
+      +'<td style="text-align:center;font-size:12px;color:var(--t3)">'+r.sr+'</td>'
+      +'<td><strong style="font-size:12px">'+r.code+'</strong></td>'
+      +'<td style="font-size:12px">'+(r.tm||'<span style="color:#b91c1c;font-style:italic">TBC</span>')+'</td>'
+      +'<td><span class="badge '+payCls+'" style="font-size:10px">'+(r.pay||'Pending')+'</span></td>'
+      +fields.map(function(v){return'<td style="text-align:center">'+tick(v)+'</td>';}).join('')
+      +'<td><div style="font-size:11px;font-weight:800;color:'+col+'">'+pct+'%</div>'
+      +'<div style="height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;margin-top:2px">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+col+'"></div></div></td>'
+      +'</tr>';
   }).join('');
 }
 function buildBalanceSheet(){
   var tb=document.getElementById('balanceBody'); if(!tb) return;
-  tb.innerHTML=BALANCE_DATA.map(function(r,i){
-    return '<tr style="'+(i%2?'background:#fafbfd':'')+'"><td style="font-size:12px">'+r.date+'</td>'
-    +'<td style="font-weight:600;font-size:12px">'+r.code+'</td>'
-    +'<td style="font-size:12px">'+r.tm+'</td>'
-    +'<td style="font-size:12px">'+r.type+'</td>'
-    +'<td style="text-align:right;color:#b91c1c;font-weight:600">'+(r.debit>0?'€'+r.debit.toFixed(2):'—')+'</td>'
-    +'<td style="text-align:right;color:#166534;font-weight:600">'+(r.credit>0?'€'+r.credit.toFixed(2):'—')+'</td>'
-    +'<td style="text-align:right;font-weight:700">€'+r.balance.toFixed(2)+'</td></tr>';
+  tb.innerHTML = BALANCE_DATA.map(function(r,i){
+    var bg=i%2?'background:#fafbfd':'';
+    var isOpening = r.type==='Opening Balance';
+    return '<tr style="'+bg+(isOpening?';background:#f0fdf4':'')+'">'
+      +'<td style="font-size:12px">'+r.date+'</td>'
+      +'<td style="font-weight:700;font-size:12px">'+r.code+'</td>'
+      +'<td style="font-size:12px">'+r.tm+'</td>'
+      +'<td style="font-size:12px">'+r.type+'</td>'
+      +'<td style="text-align:right;color:#b91c1c;font-weight:600">'+(r.debit>0?'\u20ac'+r.debit.toFixed(2):'\u2014')+'</td>'
+      +'<td style="text-align:right;color:#166534;font-weight:600">'+(r.credit>0?'\u20ac'+r.credit.toFixed(2):'\u2014')+'</td>'
+      +'<td style="text-align:right;font-weight:800;font-size:13px">\u20ac'+r.balance.toFixed(2)+'</td>'
+      +'</tr>';
   }).join('');
   var tot=document.getElementById('balanceTotal');
-  if(tot) tot.textContent='€'+BALANCE_DATA[BALANCE_DATA.length-1].balance.toFixed(2);
+  if(tot) tot.textContent='\u20ac'+BALANCE_DATA[BALANCE_DATA.length-1].balance.toFixed(2);
+}
+
+// ── Render full tour slotting ─────────────────────────────────────
+function renderSlotting(filter){
+  var tb=document.getElementById('slottingBody'); if(!tb) return;
+  var data=TOUR_SLOTTING;
+  if(filter) data=data.filter(function(r){return r.code===filter||r.name.toLowerCase().includes(filter.toLowerCase());});
+  var codeColors={'WOE':'#c9682f','GTE':'#1a3a5c','GOS':'#0369a1','ISP':'#7c3aed','ISPL':'#7c3aed','GOE':'#166534','AZ':'#475569','PGZ':'#0891b2','SPG':'#0891b2','UKS':'#6b7280','EAG':'#d97706','ADHOC':'#6b7280'};
+  tb.innerHTML=data.map(function(r,i){
+    var col=codeColors[r.code]||'#374151';
+    var insOk=r.ins==='True', lermsOk=r.lerms==='True';
+    var bg=i%2?'background:#fafbfd':'';
+    return '<tr style="'+bg+'">'
+      +'<td><span style="background:'+col+';color:#fff;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">'+r.code+'</span></td>'
+      +'<td style="font-size:12px">'+r.name+'</td>'
+      +'<td style="font-size:12px;font-weight:600">'+r.date+'</td>'
+      +'<td style="font-size:12px;text-align:center">'+r.nights+'N</td>'
+      +'<td style="font-size:12px">'+r.inCity+' → '+r.outCity+'</td>'
+      +'<td style="font-size:12px">'+(r.tm||'<span style="color:#b91c1c;font-style:italic">TBC</span>')+'</td>'
+      +'<td style="font-size:11px;color:#6b7280">'+(r.planb||'—')+'</td>'
+      +'<td style="text-align:center"><span class="badge '+(insOk?'b-green':r.ins==='NA'?'':'b-red')+'" style="font-size:10px">'+(r.ins||'?')+'</span></td>'
+      +'<td style="text-align:center"><span class="badge '+(lermsOk?'b-green':r.lerms==='NA'?'':'b-red')+'" style="font-size:10px">'+(r.lerms||'?')+'</span></td>'
+      +'</tr>';
+  }).join('');
+  var cnt=document.getElementById('slottingCount'); if(cnt) cnt.textContent=data.length+' tours';
 }
 </script>
 
